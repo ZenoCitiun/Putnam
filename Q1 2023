@@ -1,0 +1,26 @@
+from math import cos, sin
+
+# Define the function f(x)
+def f(x, n):
+    result = 1.0
+    for i in range(1, n + 1):
+        result *= cos(i * x)
+    return result
+
+# Numerical differentiation to approximate the second derivative at x=0
+def numerical_second_derivative(func, x, n, h=1e-8):
+    return (func(x + h, n) - 2 * func(x, n) + func(x - h, n)) / (h ** 2)
+
+# Find the smallest n such that |f''(0)| > 2023
+def find_smallest_n(target_value):
+    current_n = 1
+    while True:
+        second_derivative_at_0 = numerical_second_derivative(f, 0, current_n)
+        if abs(second_derivative_at_0) > target_value:
+            return current_n
+        current_n += 1
+
+# Find the smallest n
+smallest_n = find_smallest_n(2023)
+
+print("The smallest n such that |f''(0)| > 2023 is:", smallest_n)
